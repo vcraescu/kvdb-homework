@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package app.v1;
+
+option go_package = "api/v1";
+
+service App {
+  rpc Save(SaveRequest) returns (SaveResponse) {}
+  rpc Find(FindRequest) returns (FindResponse) {}
+}
+
+message SaveRequest {
+  string text = 1;
+}
+
+message SaveResponse {
+  map<string, int32> keywords = 1;
+}
+
+message FindRequest {
+  repeated string keywords = 1;
+}
+
+message FindResponse {
+  map<string, int32> keywords = 1;
+}
