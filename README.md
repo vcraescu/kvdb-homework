@@ -1,4 +1,4 @@
-# emag-homework
+# kvdb-homework
 
 ## How to run
 
