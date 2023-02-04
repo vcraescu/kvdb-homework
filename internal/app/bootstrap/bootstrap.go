@@ -2,18 +2,20 @@ package bootstrap
 
 import (
 	"context"
-	v1 "emag-homework/api/v1"
+	"fmt"
+	"net"
+	"os"
+	"os/signal"
+
+	v1 "emag-homework/gen/proto/go/api/v1"
 	"emag-homework/internal/app"
 	"emag-homework/internal/app/keyword"
 	"emag-homework/internal/app/server"
 	"emag-homework/pkg/dbclient"
 	"emag-homework/pkg/env"
 	"emag-homework/pkg/log"
-	"fmt"
+
 	"google.golang.org/grpc"
-	"net"
-	"os"
-	"os/signal"
 )
 
 const (
@@ -61,12 +63,12 @@ func Bootstrap() error {
 	return StartGRPCServer(ctx, lis, srv, logger)
 }
 
-func StartGRPCServer(ctx context.Context, lis net.Listener, srv v1.AppServer, logger app.Logger) error {
+func StartGRPCServer(ctx context.Context, lis net.Listener, srv v1.AppServiceServer, logger app.Logger) error {
 	grpcSrv := grpc.NewServer(
 		grpc.UnaryInterceptor(log.GRPCUnaryServerInterceptor(logger)),
 	)
 
-	v1.RegisterAppServer(grpcSrv, srv)
+	v1.RegisterAppServiceServer(grpcSrv, srv)
 
 	logger.Info("Start listening at %s ...", lis.Addr().String())
 

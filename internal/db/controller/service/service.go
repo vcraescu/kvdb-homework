@@ -2,14 +2,16 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"io"
+
 	"emag-homework/internal/db/api/v1"
 	"emag-homework/internal/db/controller"
 	"emag-homework/internal/db/controller/healthz"
 	"emag-homework/internal/db/controller/node"
-	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"io"
 )
 
 type HealthzChecker interface {

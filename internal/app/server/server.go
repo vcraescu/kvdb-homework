@@ -2,19 +2,23 @@ package server
 
 import (
 	"context"
-	"emag-homework/api/v1"
-	"emag-homework/internal/app"
-	"emag-homework/internal/app/keyword"
 	"errors"
 	"fmt"
+	"strings"
+
+	v1 "emag-homework/gen/proto/go/api/v1"
+	"emag-homework/internal/app"
+	"emag-homework/internal/app/keyword"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"strings"
 )
 
-var _ v1.AppServer = (*AppServer)(nil)
+var _ v1.AppServiceServer = (*AppServer)(nil)
 
 type AppServer struct {
+	v1.UnimplementedAppServiceServer
+
 	repository app.KeywordRepository
 	counter    app.KeywordCounter
 	logger     app.Logger

@@ -2,6 +2,10 @@ package server_test
 
 import (
 	"context"
+	"fmt"
+	"net"
+	"testing"
+
 	v1 "emag-homework/internal/db/api/v1"
 	"emag-homework/internal/db/bootstrap"
 	"emag-homework/internal/db/node"
@@ -9,10 +13,8 @@ import (
 	"emag-homework/internal/db/store"
 	"emag-homework/pkg/log"
 	"emag-homework/pkg/test/require"
-	"fmt"
+
 	"google.golang.org/grpc"
-	"net"
-	"testing"
 )
 
 func TestNodeServer_Put(t *testing.T) {
@@ -104,7 +106,7 @@ func setupTest(t *testing.T, srv v1.NodeServer, logger node.Logger) (client v1.N
 		require.NoError(t, err)
 	}()
 
-	cc, err := grpc.Dial(addr, grpc.WithInsecure())
+	cc, _ := grpc.Dial(addr, grpc.WithInsecure())
 
 	client = v1.NewNodeClient(cc)
 	tearDown = func() {

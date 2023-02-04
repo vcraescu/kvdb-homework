@@ -220,7 +220,7 @@ func (s *Store) setup() error {
 func (s *Store) load() error {
 	var err error
 
-	s.fd, err = os.OpenFile(s.filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	s.fd, err = os.OpenFile(s.filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0o644)
 	if err != nil {
 		return fmt.Errorf("failed opening file %q: %w", s.filename, err)
 	}
@@ -240,7 +240,7 @@ func (s *Store) startFlushing() {
 	var count int
 	t := time.NewTimer(s.flushInterval)
 
-	for _ = range s.flushCh {
+	for range s.flushCh {
 		count++
 
 		select {
@@ -250,7 +250,7 @@ func (s *Store) startFlushing() {
 			}
 
 			if err := s.Flush(); err != nil {
-				s.logger.Error("failed flush: %s", err)
+				s.logger.Error("failed flush: %v", err)
 
 				break
 			}
@@ -262,7 +262,7 @@ func (s *Store) startFlushing() {
 			}
 
 			if err := s.Flush(); err != nil {
-				s.logger.Error("failed flush: %s", err)
+				s.logger.Error("failed flush: %v", err)
 
 				break
 			}

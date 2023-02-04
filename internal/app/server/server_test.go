@@ -2,16 +2,18 @@ package server_test
 
 import (
 	"context"
-	v1 "emag-homework/api/v1"
+	"net"
+	"testing"
+
+	v1 "emag-homework/gen/proto/go/api/v1"
 	"emag-homework/internal/app"
 	"emag-homework/internal/app/bootstrap"
 	"emag-homework/internal/app/keyword"
 	"emag-homework/internal/app/server"
 	"emag-homework/pkg/log"
 	"emag-homework/pkg/test/require"
+
 	"google.golang.org/grpc"
-	"net"
-	"testing"
 )
 
 func TestAppServer_Save(t *testing.T) {
@@ -164,7 +166,7 @@ func TestAppServer_Find(t *testing.T) {
 	}
 }
 
-func setupTest(t *testing.T, srv v1.AppServer, logger *log.Logger) (client v1.AppClient, tearDown func()) {
+func setupTest(t *testing.T, srv v1.AppServiceServer, logger *log.Logger) (client v1.AppServiceClient, tearDown func()) {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 
@@ -179,8 +181,9 @@ func setupTest(t *testing.T, srv v1.AppServer, logger *log.Logger) (client v1.Ap
 	}()
 
 	cc, err := grpc.Dial(addr, grpc.WithInsecure())
+	require.NoError(t, err)
 
-	client = v1.NewAppClient(cc)
+	client = v1.NewAppServiceClient(cc)
 	tearDown = func() {
 		cc.Close()
 		cancel()

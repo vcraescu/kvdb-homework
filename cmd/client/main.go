@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
-	v1 "emag-homework/api/v1"
+
+	v1 "emag-homework/gen/proto/go/api/v1"
 	"emag-homework/pkg/env"
 	"emag-homework/pkg/log"
+
 	"google.golang.org/grpc"
 )
 
@@ -24,7 +26,7 @@ func main() {
 
 	logger.Info("successfully connected to %q", appAddress)
 
-	client := v1.NewAppClient(cc)
+	client := v1.NewAppServiceClient(cc)
 	ctx := context.Background()
 
 	saveRes, err := client.Save(ctx, &v1.SaveRequest{

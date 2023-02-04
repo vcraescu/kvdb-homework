@@ -1,7 +1,7 @@
 package log
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 )
@@ -28,8 +28,8 @@ func NewLogger() *Logger {
 func NewNopLogger() *Logger {
 	l := NewLogger()
 
-	l.info.SetOutput(ioutil.Discard)
-	l.error.SetOutput(ioutil.Discard)
+	l.info.SetOutput(io.Discard)
+	l.error.SetOutput(io.Discard)
 
 	return l
 }
