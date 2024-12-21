@@ -1,12 +1,6 @@
 .PHONY: proto
 proto:
-	protoc internal/app/api/v1/*.proto \
-		--go_out=plugins=grpc:. \
-		--proto_path=.
-
-	protoc internal/db/api/v1/*.proto \
-		--go_out=plugins=grpc:. \
-		--proto_path=.
+	buf generate
 
 .PHONY: app
 app:
